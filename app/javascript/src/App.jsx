@@ -4,6 +4,7 @@ import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import { setAuthHeaders } from "./apis/axios";
 
 import LoginForm from "./components/auth/Login";
+import SignupForm from "./components/auth/Signup";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -21,6 +22,7 @@ const App = () => {
       <Switch>
         <Route exact path="/" render={() => <div>Home</div>} />
         <Route exact path="/login" component={LoginForm} />
+        <Route exact path="/signup" component={SignupForm} />
       </Switch>
     </Router>
   );

@@ -98,7 +98,7 @@ export default function LoginForm() {
             >
               Sign In
             </Button>
-            <Grid container>
+            <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
