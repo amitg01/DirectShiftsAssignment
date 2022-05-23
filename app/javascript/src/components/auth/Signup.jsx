@@ -16,23 +16,15 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import authApi from "../../apis/auth";
 import { setAuthHeaders } from "../../apis/axios";
 import { validator } from "../../helper";
+import { defaultErrorState } from "../../constants";
 
 const theme = createTheme();
 
 export default function SignupForm() {
-  const [emailError, setEmailError] = useState({ error: false, message: "" });
-  const [passwordError, setPasswordError] = useState({
-    error: false,
-    message: "",
-  });
-  const [firstNameError, setFirstNameError] = useState({
-    error: false,
-    message: "",
-  });
-  const [lastNameError, setLastNameError] = useState({
-    error: false,
-    message: "",
-  });
+  const [emailError, setEmailError] = useState(defaultErrorState);
+  const [passwordError, setPasswordError] = useState(defaultErrorState);
+  const [firstNameError, setFirstNameError] = useState(defaultErrorState);
+  const [lastNameError, setLastNameError] = useState(defaultErrorState);
 
   const history = useHistory();
 

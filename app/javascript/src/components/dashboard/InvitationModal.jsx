@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 
 import inviteApi from "../../apis/invite";
 import { validator } from "../../helper";
+import { defaultErrorState } from "../../constants";
 
 const style = {
   position: "absolute",
@@ -20,7 +21,12 @@ const style = {
 };
 
 export default function InvitationModal({ open, handleClose }) {
-  const [error, setError] = useState({ error: false, message: "" });
+  const [error, setError] = useState(defaultErrorState);
+
+  const handleModalClose = () => {
+    handleClose();
+    setError(defaultErrorState);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -36,7 +42,7 @@ export default function InvitationModal({ open, handleClose }) {
             reciever: email,
           },
         });
-        handleClose();
+        handleModalClose();
       } catch (error) {
         console.log(error);
       }
@@ -46,7 +52,7 @@ export default function InvitationModal({ open, handleClose }) {
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={handleModalClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >

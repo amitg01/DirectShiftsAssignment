@@ -17,15 +17,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import authApi from "../../apis/auth";
 import { validator } from "../../helper";
+import { defaultErrorState } from "../../constants";
 
 const theme = createTheme();
 
 export default function LoginForm() {
-  const [emailError, setEmailError] = useState({ error: false, message: "" });
-  const [passwordError, setPasswordError] = useState({
-    error: false,
-    message: "",
-  });
+  const [emailError, setEmailError] = useState(defaultErrorState);
+  const [passwordError, setPasswordError] = useState(defaultErrorState);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
