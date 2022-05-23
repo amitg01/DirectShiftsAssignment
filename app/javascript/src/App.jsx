@@ -5,6 +5,7 @@ import { setAuthHeaders } from "./apis/axios";
 
 import LoginForm from "./components/auth/Login";
 import SignupForm from "./components/auth/Signup";
+import Dashboard from "./components/dashboard";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -20,7 +21,7 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" render={() => <div>Home</div>} />
+        <Route exact path="/" component={Dashboard} />
         <Route exact path="/login" component={LoginForm} />
         <Route exact path="/signup" component={SignupForm} />
       </Switch>
