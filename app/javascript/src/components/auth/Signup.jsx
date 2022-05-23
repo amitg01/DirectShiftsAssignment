@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import Avatar from "@mui/material/Avatar";
@@ -15,10 +15,25 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import authApi from "../../apis/auth";
 import { setAuthHeaders } from "../../apis/axios";
+import { validator } from "../../helper";
 
 const theme = createTheme();
 
 export default function SignupForm() {
+  const [emailError, setEmailError] = useState({ error: false, message: "" });
+  const [passwordError, setPasswordError] = useState({
+    error: false,
+    message: "",
+  });
+  const [firstNameError, setFirstNameError] = useState({
+    error: false,
+    message: "",
+  });
+  const [lastNameError, setLastNameError] = useState({
+    error: false,
+    message: "",
+  });
+
   const history = useHistory();
 
   const handleSubmit = async (event) => {
@@ -28,15 +43,46 @@ export default function SignupForm() {
     const lastName = data.get("lastName");
     const email = data.get("email");
     const password = data.get("password");
-    try {
-      await authApi.signup({
-        user: { email, password, first_name: firstName, last_name: lastName },
-      });
-      setAuthHeaders();
-      history.push("/login");
-    } catch (error) {
-      console.log(error);
+    if (validateValues()) {
+      try {
+        await authApi.signup({
+          user: { email, password, first_name: firstName, last_name: lastName },
+        });
+        setAuthHeaders();
+        history.push("/login");
+      } catch (error) {
+        console.log(error);
+      }
     }
+  };
+
+  const validateValues = (email, password, firstName, lastName) => {
+    let emailValidation = validator("Email", email);
+    let passwordValidation = validator("Password", password);
+    let firstNameValidation = validator("First Name", firstName);
+    let lastNameValidation = validator("Last Name", lastName);
+
+    if (
+      !emailValidation.error &&
+      !passwordValidation.error &&
+      !firstNameValidation.error &&
+      !lastNameValidation.error
+    ) {
+      return true;
+    }
+    if (emailValidation.error) {
+      setEmailError(emailValidation);
+    }
+    if (passwordValidation.error) {
+      setPasswordError(passwordValidation);
+    }
+    if (firstNameValidation.error) {
+      setFirstNameError(firstNameValidation);
+    }
+    if (lastNameValidation.error) {
+      setLastNameError(lastNameValidation);
+    }
+    return false;
   };
 
   return (
@@ -73,6 +119,8 @@ export default function SignupForm() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  error={firstNameError.error}
+                  helperText={firstNameError.message}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -83,6 +131,8 @@ export default function SignupForm() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  error={lastNameError.error}
+                  helperText={lastNameError.message}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -93,6 +143,8 @@ export default function SignupForm() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  error={emailError.error}
+                  helperText={emailError.message}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -104,6 +156,8 @@ export default function SignupForm() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  error={passwordError.error}
+                  helperText={passwordError.message}
                 />
               </Grid>
             </Grid>

@@ -2,7 +2,7 @@ class InvitationsController < ApplicationController
 
   def create
     @invitation = Invitation.new(invitation_params)
-    @invitation[:sender] = User.find(current_user.id)
+    @invitation[:sender] = current_user.email
 
     if @invitation.save
       InvitationMailer.with(invitation: @invitation).new_invitation_email.deliver_later

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import Avatar from "@mui/material/Avatar";
@@ -16,24 +16,51 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import authApi from "../../apis/auth";
+import { validator } from "../../helper";
 
 const theme = createTheme();
 
 export default function LoginForm() {
+  const [emailError, setEmailError] = useState({ error: false, message: "" });
+  const [passwordError, setPasswordError] = useState({
+    error: false,
+    message: "",
+  });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    try {
-      const response = await authApi.login({
-        user: {
-          email: data.get("email"),
-          password: data.get("password"),
-        },
-      });
-      window.location.href = "/";
-    } catch (error) {
-      console.log(error);
+    const email = data.get("email");
+    const password = data.get("password");
+
+    if (validateValues(email, password)) {
+      try {
+        const response = await authApi.login({
+          user: {
+            email,
+            password,
+          },
+        });
+        window.location.href = "/";
+      } catch (error) {
+        console.log(error);
+      }
     }
+  };
+
+  const validateValues = (email, password) => {
+    let emailValidation = validator("email", email);
+    let passwordValidation = validator("password", password);
+    if (!emailValidation.error && !passwordValidation.error) {
+      return true;
+    }
+    if (emailValidation.error) {
+      setEmailError(emailValidation);
+    }
+    if (passwordValidation.error) {
+      setPasswordError(passwordValidation);
+    }
+    return false;
   };
 
   return (
@@ -64,20 +91,24 @@ export default function LoginForm() {
               margin="normal"
               required
               fullWidth
+              error={emailError.error}
               id="email"
               label="Email Address"
               name="email"
               autoComplete="email"
+              helperText={emailError.message}
               autoFocus
             />
             <TextField
               margin="normal"
               required
               fullWidth
+              error={passwordError.error}
               name="password"
               label="Password"
               type="password"
               id="password"
+              helperText={passwordError.message}
               autoComplete="current-password"
             />
             <FormControlLabel

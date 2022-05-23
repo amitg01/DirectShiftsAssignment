@@ -1,10 +1,11 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 
 import inviteApi from "../../apis/invite";
+import { validator } from "../../helper";
 
 const style = {
   position: "absolute",
@@ -19,18 +20,26 @@ const style = {
 };
 
 export default function InvitationModal({ open, handleClose }) {
+  const [error, setError] = useState({ error: false, message: "" });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
-    try {
-      await inviteApi.invite({
-        invitation: {
-          reciever: data.get("email"),
-        },
-      });
-    } catch (error) {
-      console.log(error);
+    const email = data.get("email");
+    let validation = validator("email", email);
+    if (validation?.error) {
+      setError(validation);
+    } else {
+      try {
+        await inviteApi.invite({
+          invitation: {
+            reciever: email,
+          },
+        });
+        handleClose();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -46,11 +55,13 @@ export default function InvitationModal({ open, handleClose }) {
           <TextField
             margin="normal"
             required
+            error={error.error}
             fullWidth
             id="email"
             label="Email Address"
             name="email"
             autoComplete="email"
+            helperText={error.message}
             autoFocus
           />
           <Button
