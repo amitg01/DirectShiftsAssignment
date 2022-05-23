@@ -1,14 +1,14 @@
 class Invitation < ApplicationRecord
-  before_save :add_sender_and_link
+  before_save :add_invitation_link
 
   private
 
-  def add_sender_and_link
-    self.link = generate_link
+  def add_invitation_link
+    self.link = generate_invite_link
   end
 
-  def generate_link
-    "google.com"
+  def generate_invite_link
+    "#{$host}/signup"
   end
 
 end
