@@ -6,6 +6,7 @@ import { setAuthHeaders } from "./apis/axios";
 import LoginForm from "./components/auth/Login";
 import SignupForm from "./components/auth/Signup";
 import Dashboard from "./components/dashboard";
+import { Loader } from "./common/Loader";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -15,7 +16,7 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <Loader />;
   }
 
   return (
