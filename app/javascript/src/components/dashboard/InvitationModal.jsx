@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 
-// import inviteApi from "../../apis/invitation";
+import inviteApi from "../../apis/invite";
 
 const style = {
   position: "absolute",
@@ -19,22 +19,20 @@ const style = {
 };
 
 export default function InvitationModal({ open, handleClose }) {
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
 
-  //   try {
-  //     await inviteApi.invite({
-  //       invitation: {
-  //         reciever: data.get("email"),
-  //         sender: "amit",
-  //         link: "https://google.com",
-  //       },
-  //     });
-  //   } catch (error) {
-  //     logger.error(error);
-  //   }
-  // };
+    try {
+      await inviteApi.invite({
+        invitation: {
+          reciever: data.get("email"),
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Modal
@@ -44,7 +42,7 @@ export default function InvitationModal({ open, handleClose }) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Box component="form" onSubmit={() => {}} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
