@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 import InvitationModal from "./InvitationModal";
-// import authApi from "../../apis/auth";
+import authApi from "../../apis/auth";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);

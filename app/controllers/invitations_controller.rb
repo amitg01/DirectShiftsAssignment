@@ -1,4 +1,5 @@
 class InvitationsController < ApplicationController
+  before_action :authenticate_user!
 
   def create
     @invitation = Invitation.new(invitation_params)
