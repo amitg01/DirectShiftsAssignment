@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-// import authApi from "../../apis/auth";
+import authApi from "../../apis/auth";
 import { setAuthHeaders } from "../../apis/axios";
 
 const theme = createTheme();
@@ -24,14 +24,18 @@ export default function SignupForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const firstName = data.get("firstName");
+    const lastName = data.get("lastName");
     const email = data.get("email");
     const password = data.get("password");
     try {
-      // await authApi.signup({ user: { email, password } });
+      await authApi.signup({
+        user: { email, password, first_name: firstName, last_name: lastName },
+      });
       setAuthHeaders();
       history.push("/login");
     } catch (error) {
-      logger.error(error);
+      console.log(error);
     }
   };
 
@@ -56,7 +60,7 @@ export default function SignupForm() {
           <Box
             component="form"
             noValidate
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>

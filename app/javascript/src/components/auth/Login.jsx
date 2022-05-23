@@ -15,32 +15,26 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-// import authApi from "../../apis/auth";
-// import { setToLocalStorage } from "../../utils/storage";
+import authApi from "../../apis/auth";
 
 const theme = createTheme();
 
 export default function LoginForm() {
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   try {
-  //     const response = await authApi.login({
-  //       user: {
-  //         email: data.get("email"),
-  //         password: data.get("password"),
-  //       },
-  //     });
-  //     setToLocalStorage({
-  //       authToken: response.data.user.token,
-  //       email: response.data.user.email,
-  //       userId: response.data.user.id,
-  //     });
-  //     window.location.href = "/";
-  //   } catch (error) {
-  //     logger.error(error);
-  //   }
-  // };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    try {
+      const response = await authApi.login({
+        user: {
+          email: data.get("email"),
+          password: data.get("password"),
+        },
+      });
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -62,7 +56,7 @@ export default function LoginForm() {
           </Typography>
           <Box
             component="form"
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >

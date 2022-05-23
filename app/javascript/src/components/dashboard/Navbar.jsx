@@ -17,16 +17,16 @@ export default function Navbar() {
 
   const history = useHistory();
 
-  // const handleLogout = () => {
-  //   try {
-  //     authApi.logout();
-  //     localStorage.clear();
-  //   } catch (error) {
-  //     logger.error(error);
-  //   } finally {
-  //     history.push("/login");
-  //   }
-  // };
+  const handleLogout = () => {
+    try {
+      authApi.logout();
+      localStorage.clear();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      history.push("/login");
+    }
+  };
 
   return (
     <>
@@ -39,7 +39,7 @@ export default function Navbar() {
             <Button color="inherit" onClick={handleOpen}>
               INVITE
             </Button>
-            <Button color="inherit" onClick={() => {}}>
+            <Button color="inherit" onClick={handleLogout}>
               LOGOUT
             </Button>
           </Toolbar>
