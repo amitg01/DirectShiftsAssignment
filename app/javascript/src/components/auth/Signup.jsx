@@ -40,7 +40,7 @@ export default function SignupForm() {
         const response = await authApi.signup({
           user: { email, password, first_name: firstName, last_name: lastName },
         });
-        if (response.status === 200) {
+        if (response.status >= 200 || response.status < 300) {
           setAuthHeaders();
           history.push("/login");
         }
