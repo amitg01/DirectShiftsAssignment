@@ -25,6 +25,7 @@ export default function Navbar() {
       console.log(error);
     } finally {
       history.push("/login");
+      localStorage.removeItem("DirectShiftsUser");
     }
   };
 
