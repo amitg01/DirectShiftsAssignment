@@ -35,13 +35,15 @@ export default function SignupForm() {
     const lastName = data.get("lastName");
     const email = data.get("email");
     const password = data.get("password");
-    if (validateValues()) {
+    if (validateValues(email, password, firstName, lastName)) {
       try {
-        await authApi.signup({
+        const response = await authApi.signup({
           user: { email, password, first_name: firstName, last_name: lastName },
         });
-        setAuthHeaders();
-        history.push("/login");
+        if (response.status === 200) {
+          setAuthHeaders();
+          history.push("/login");
+        }
       } catch (error) {
         console.log(error);
       }

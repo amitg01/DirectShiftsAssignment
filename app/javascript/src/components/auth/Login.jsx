@@ -38,7 +38,9 @@ export default function LoginForm() {
             password,
           },
         });
-        window.location.href = "/";
+        if (response.status === 200) {
+          window.location.href = "/";
+        }
       } catch (error) {
         console.log(error);
       }
