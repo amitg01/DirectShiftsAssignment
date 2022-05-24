@@ -18,7 +18,7 @@ const setAuthHeaders = (setLoading = () => null) => {
 
 const handleSuccessResponse = (response) => {
   if (response) {
-    response.success = response.status === 200;
+    response.success = response.status >= 200 && response.status < 300;
     if (response.data.notice) {
       Toastr.success(response.data.notice);
     }

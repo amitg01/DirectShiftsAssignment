@@ -3,12 +3,12 @@ import { Redirect, Route } from "react-router-dom";
 
 const PrivateRoute = ({
   component: Component,
-  condition,
   path,
   redirectRoute,
   ...props
 }) => {
-  if (!condition) {
+  const isLoggedIn = !!JSON.parse(localStorage.getItem("DirectShiftsUser"));
+  if (!isLoggedIn) {
     return (
       <Redirect
         to={{

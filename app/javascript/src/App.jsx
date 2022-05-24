@@ -34,8 +34,6 @@ const App = () => {
     />
   );
 
-  const isLoggedIn = !!JSON.parse(localStorage.getItem("DirectShiftsUser"));
-
   if (loading) {
     return <Loader />;
   }
@@ -46,12 +44,7 @@ const App = () => {
       <Switch>
         <Route exact path="/login" component={LoginForm} />
         <Route exact path="/signup" component={SignupForm} />
-        <PrivateRoute
-          path="/"
-          redirectRoute="/login"
-          condition={isLoggedIn}
-          component={Dashboard}
-        />
+        <PrivateRoute path="/" redirectRoute="/login" component={Dashboard} />
       </Switch>
     </Router>
   );

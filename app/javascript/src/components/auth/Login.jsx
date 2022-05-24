@@ -42,7 +42,7 @@ export default function LoginForm() {
           },
         });
         if (response.status === 200) {
-          window.location.href = "/";
+          history.push("/");
           localStorage.setItem(
             "DirectShiftsUser",
             JSON.stringify(response.data.user)
