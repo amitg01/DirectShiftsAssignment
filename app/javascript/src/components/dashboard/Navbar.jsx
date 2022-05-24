@@ -17,10 +17,10 @@ export default function Navbar() {
 
   const history = useHistory();
 
-  const handleLogout = () => {
+  const handleLogout = (event) => {
+    event.preventDefault();
     try {
       authApi.logout();
-      localStorage.clear();
     } catch (error) {
       console.log(error);
     } finally {

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -24,6 +25,8 @@ export default function LoginForm() {
   const [emailError, setEmailError] = useState(defaultErrorState);
   const [passwordError, setPasswordError] = useState(defaultErrorState);
 
+  const history = useHistory();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -39,7 +42,7 @@ export default function LoginForm() {
           },
         });
         if (response.status === 200) {
-          window.location.href = "/";
+          history.push("/");
         }
       } catch (error) {
         console.log(error);

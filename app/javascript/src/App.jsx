@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
-import { setAuthHeaders } from "./apis/axios";
+import { setAuthHeaders, registerIntercepts } from "./apis/axios";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import LoginForm from "./components/auth/Login";
 import SignupForm from "./components/auth/Signup";
@@ -13,7 +16,22 @@ const App = () => {
 
   useEffect(() => {
     setAuthHeaders(setLoading);
+    registerIntercepts();
   }, []);
+
+  const NoticeContainer = () => (
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
+  );
 
   if (loading) {
     return <Loader />;
@@ -21,6 +39,7 @@ const App = () => {
 
   return (
     <Router>
+      <NoticeContainer />
       <Switch>
         <Route exact path="/" component={Dashboard} />
         <Route exact path="/login" component={LoginForm} />
