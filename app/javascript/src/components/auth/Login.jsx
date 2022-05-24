@@ -42,7 +42,11 @@ export default function LoginForm() {
           },
         });
         if (response.status === 200) {
-          history.push("/");
+          window.location.href = "/";
+          localStorage.setItem(
+            "DirectShiftsUser",
+            JSON.stringify(response.data.user)
+          );
         }
       } catch (error) {
         console.log(error);

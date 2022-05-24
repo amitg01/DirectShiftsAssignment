@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import LoginForm from "./components/auth/Login";
 import SignupForm from "./components/auth/Signup";
 import Dashboard from "./components/dashboard";
+import PrivateRoute from "./common/PrivateRoute";
 import { Loader } from "./common/Loader";
 
 const App = () => {
@@ -33,6 +34,8 @@ const App = () => {
     />
   );
 
+  const isLoggedIn = !!JSON.parse(localStorage.getItem("DirectShiftsUser"));
+
   if (loading) {
     return <Loader />;
   }
@@ -41,9 +44,14 @@ const App = () => {
     <Router>
       <NoticeContainer />
       <Switch>
-        <Route exact path="/" component={Dashboard} />
         <Route exact path="/login" component={LoginForm} />
         <Route exact path="/signup" component={SignupForm} />
+        <PrivateRoute
+          path="/"
+          redirectRoute="/login"
+          condition={isLoggedIn}
+          component={Dashboard}
+        />
       </Switch>
     </Router>
   );
